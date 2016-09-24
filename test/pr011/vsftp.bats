@@ -27,8 +27,8 @@ curl_err_resource_doesnt_exist=78
 
 # {{{Helper functions
 # Check that a user has read acces to a share
-# Usage: read_access SHARE USER PASSWORD
-read_access() {
+# Usage: assert_read_access SHARE USER PASSWORD
+assert_read_access() {
   local share=${1}
   local user=${2}
   local password=${3}
@@ -38,8 +38,8 @@ read_access() {
 }
 
 # Check that a user has NO read access to a share
-# Usage: no_read_access SHARE USER PASSWORD
-no_read_access() {
+# Usage: assert_no_read_access SHARE USER PASSWORD
+assert_no_read_access() {
   local share=${1}
   local user=${2}
   local password=${3}
@@ -49,8 +49,8 @@ no_read_access() {
 }
 
 # Check that a user has write access to a share.
-# Usage: write_access SHARE USER PASSWORD
-write_access() {
+# Usage: assert_write_access SHARE USER PASSWORD
+assert_write_access() {
   local share=${1}
   local user=${2}
   local password=${3}
@@ -69,8 +69,8 @@ write_access() {
 # - the USER has no read access => curl gives an "access denied" error
 # - the USER has read acces, but can't write => curl gives a "RETR failed"
 #   error with an FTP error code denoting "file unavailable"
-# Usage: no_write_access USER SHARE
-no_write_access() {
+# Usage: assert_no_write_access USER SHARE
+assert_no_write_access() {
   local share=${1}
   local user=${2}
   local password=${3}
@@ -130,137 +130,183 @@ no_write_access() {
 
 # Read/write access
 
-@test 'Check read access for share ‘publiek’' {
-
-  read_access publiek franka franka
-  read_access publiek femkevdv femkevdv
-  read_access publiek hansb hansb
-  read_access publiek kimberlyvh kimberlyvh
-  read_access publiek taniav taniav
-  read_access publiek peterj peterj
-  read_access publiek maaiked maaiked
-  read_access publiek ${admin_user} ${admin_password}
+@test 'read access for share ‘public’' {
+  #                      Share      User          Password
+  assert_read_access     public     alexanderd    alexanderd
+  assert_read_access     public     anc           anc
+  assert_read_access     public     benoitp       benoitp
+  assert_read_access     public     christophev   christophev
+  assert_read_access     public     elenaa        elenaa
+  assert_read_access     public     evyt          evyt
+  assert_read_access     public     krisv         krisv
+  assert_read_access     public     leend         leend
+  assert_read_access     public     nehirb        nehirb
+  assert_read_access     public     stefaanv      stefaanv
+  assert_read_access     public     stevenh       stevenh
+  assert_read_access     public     stevenv       stevenv
+  assert_read_access     public     svena         svena
+  assert_read_access     public     ${admin_user} ${admin_user}
 }
 
-@test 'Check write access for share ‘publiek’' {
-
-  write_access publiek franka franka
-  write_access publiek femkevdv femkevdv
-  write_access publiek hansb hansb
-  write_access publiek hansb hansb
-  write_access publiek taniav taniav
-  write_access publiek peterj peterj
-  write_access publiek maaiked maaiked
-  write_access publiek ${admin_user} ${admin_password}
+@test 'write access for share ‘public’' {
+  #                      Share      User          Password
+  assert_write_access    public     alexanderd    alexanderd
+  assert_write_access    public     anc           anc
+  assert_write_access    public     benoitp       benoitp
+  assert_write_access    public     christophev   christophev
+  assert_write_access    public     elenaa        elenaa
+  assert_write_access    public     evyt          evyt
+  assert_write_access    public     krisv         krisv
+  assert_write_access    public     leend         leend
+  assert_write_access    public     nehirb        nehirb
+  assert_write_access    public     stefaanv      stefaanv
+  assert_write_access    public     stevenh       stevenh
+  assert_write_access    public     stevenv       stevenv
+  assert_write_access    public     svena         svena
+  assert_write_access    public     ${admin_user} ${admin_user}
 }
 
-
-@test 'Check read access for share ‘verzekeringen’' {
-  read_access verzekeringen franka franka
-  read_access verzekeringen femkevdv femkevdv
-  read_access verzekeringen hansb hansb
-  read_access verzekeringen kimberlyvh kimberlyvh
-  read_access verzekeringen taniav taniav
-  read_access verzekeringen peterj peterj
-  read_access verzekeringen maaiked maaiked
-  read_access verzekeringen ${admin_user} ${admin_password}
+@test 'read access for share ‘management’' {
+  #                      Share      User          Password
+  assert_no_read_access  management alexanderd    alexanderd
+  assert_no_read_access  management anc           anc
+  assert_no_read_access  management benoitp       benoitp
+  assert_no_read_access  management christophev   christophev
+  assert_read_access     management elenaa        elenaa
+  assert_no_read_access  management evyt          evyt
+  assert_read_access     management krisv         krisv
+  assert_no_read_access  management leend         leend
+  assert_no_read_access  management nehirb        nehirb
+  assert_no_read_access  management stefaanv      stefaanv
+  assert_read_access     management stevenh       stevenh
+  assert_no_read_access  management stevenv       stevenv
+  assert_no_read_access  management svena         svena
+  assert_no_read_access  management ${admin_user} ${admin_user}
 }
 
-@test 'Check write access for share ‘verzekeringen’' {
-  write_access verzekeringen franka franka
-  no_write_access verzekeringen femkevdv femkevdv
-  write_access verzekeringen hansb hansb
-  write_access verzekeringen kimberlyvh kimberlyvh
-  write_access verzekeringen taniav taniav
-  no_write_access verzekeringen peterj peterj
-  write_access verzekeringen maaiked maaiked
-  write_access verzekeringen ${admin_user} ${admin_password}
+@test 'write access for share ‘management’' {
+  #                      Share      User          Password
+  assert_no_write_access management alexanderd    alexanderd
+  assert_no_write_access management anc           anc
+  assert_no_write_access management benoitp       benoitp
+  assert_no_write_access management christophev   christophev
+  assert_write_access    management elenaa        elenaa
+  assert_no_write_access management evyt          evyt
+  assert_write_access    management krisv         krisv
+  assert_no_write_access management leend         leend
+  assert_no_write_access management nehirb        nehirb
+  assert_no_write_access management stefaanv      stefaanv
+  assert_write_access    management stevenh       stevenh
+  assert_no_write_access management stevenv       stevenv
+  assert_no_write_access management svena         svena
+  assert_no_write_access management ${admin_user} ${admin_user}
 }
 
-@test 'Check read access for share ‘financieringen’' {
-  read_access financieringen franka franka
-  read_access financieringen femkevdv femkevdv
-  read_access financieringen hansb hansb
-  read_access financieringen kimberlyvh kimberlyvh
-  read_access financieringen taniav taniav
-  read_access financieringen peterj peterj
-  read_access financieringen maaiked maaiked
-  read_access financieringen ${admin_user} ${admin_password}
+@test 'read access for share ‘technical’' {
+  #                      Share      User          Password
+  assert_read_access     technical  alexanderd    alexanderd
+  assert_read_access     technical  anc           anc
+  assert_read_access     technical  benoitp       benoitp
+  assert_read_access     technical  christophev   christophev
+  assert_read_access     technical  elenaa        elenaa
+  assert_read_access     technical  evyt          evyt
+  assert_read_access     technical  krisv         krisv
+  assert_read_access     technical  leend         leend
+  assert_read_access     technical  nehirb        nehirb
+  assert_read_access     technical  stefaanv      stefaanv
+  assert_read_access     technical  stevenh       stevenh
+  assert_read_access     technical  stevenv       stevenv
+  assert_read_access     technical  svena         svena
+  assert_read_access     technical  ${admin_user} ${admin_user}
 }
 
-@test 'Check write access for share ‘financieringen’' {
-  write_access financieringen franka franka
-  no_write_access financieringen femkevdv femkevdv
-  no_write_access financieringen hansb hansb
-  no_write_access financieringen kimberlyvh kimberlyvh
-  no_write_access financieringen taniav taniav
-  write_access financieringen peterj peterj
-  write_access financieringen maaiked maaiked
-  write_access financieringen ${admin_user} ${admin_password}
+@test 'write access for share ‘technical’' {
+  #                      Share      User          Password
+  assert_write_access    technical  alexanderd    alexanderd
+  assert_write_access    technical  anc           anc
+  assert_no_write_access technical  benoitp       benoitp
+  assert_no_write_access technical  christophev   christophev
+  assert_no_write_access technical  elenaa        elenaa
+  assert_write_access    technical  evyt          evyt
+  assert_no_write_access technical  krisv         krisv
+  assert_write_access    technical  leend         leend
+  assert_no_write_access technical  nehirb        nehirb
+  assert_write_access    technical  stefaanv      stefaanv
+  assert_no_write_access technical  stevenh       stevenh
+  assert_write_access    technical  stevenv       stevenv
+  assert_no_write_access technical  svena         svena
+  assert_no_write_access technical  ${admin_user} ${admin_user}
 }
 
-@test 'Check read access for share ‘directie’' {
-  read_access directie franka franka
-  read_access directie femkevdv femkevdv
-  read_access directie hansb hansb
-  read_access directie kimberlyvh kimberlyvh
-  read_access directie taniav taniav
-  read_access directie peterj peterj
-  read_access directie maaiked maaiked
-  read_access directie ${admin_user} ${admin_password}
+@test 'read access for share ‘sales’' {
+  #                      Share      User          Password
+  assert_no_read_access  sales      alexanderd    alexanderd
+  assert_no_read_access  sales      anc           anc
+  assert_read_access     sales      benoitp       benoitp
+  assert_no_read_access  sales      christophev   christophev
+  assert_read_access     sales      elenaa        elenaa
+  assert_no_read_access  sales      evyt          evyt
+  assert_read_access     sales      krisv         krisv
+  assert_no_read_access  sales      leend         leend
+  assert_no_read_access  sales      nehirb        nehirb
+  assert_no_read_access  sales      stefaanv      stefaanv
+  assert_read_access     sales      stevenh       stevenh
+  assert_no_read_access  sales      stevenv       stevenv
+  assert_read_access     sales      svena         svena
+  assert_no_read_access  sales      ${admin_user} ${admin_user}
 }
 
-@test 'Check write access for share ‘directie’' {
-  write_access directie franka franka
-  write_access directie femkevdv femkevdv
-  no_write_access directie hansb hansb
-  no_write_access directie kimberlyvh kimberlyvh
-  no_write_access directie taniav taniav
-  no_write_access directie peterj peterj
-  write_access directie maaiked maaiked
-  write_access directie ${admin_user} ${admin_password}
+@test 'write access for share ‘sales’' {
+  #                      Share      User          Password
+  assert_no_write_access sales      alexanderd    alexanderd
+  assert_no_write_access sales      anc           anc
+  assert_write_access    sales      benoitp       benoitp
+  assert_no_write_access sales      christophev   christophev
+  assert_no_write_access sales      elenaa        elenaa
+  assert_no_write_access sales      evyt          evyt
+  assert_no_write_access sales      krisv         krisv
+  assert_no_write_access sales      leend         leend
+  assert_no_write_access sales      nehirb        nehirb
+  assert_no_write_access sales      stefaanv      stefaanv
+  assert_no_write_access sales      stevenh       stevenh
+  assert_no_write_access sales      stevenv       stevenv
+  assert_write_access    sales      svena         svena
+  assert_no_write_access sales      ${admin_user} ${admin_user}
 }
 
-@test 'Check read access for share ‘staf’' {
-  read_access staf franka franka
-  read_access staf femkevdv femkevdv
-  read_access staf hansb hansb
-  read_access staf kimberlyvh kimberlyvh
-  read_access staf taniav taniav
-  read_access staf peterj peterj
-  read_access staf maaiked maaiked
-  read_access staf ${admin_user} ${admin_password}
+@test 'read access for share ‘it’' {
+  #                      Share      User          Password
+  assert_no_read_access  it         alexanderd    alexanderd
+  assert_no_read_access  it         anc           anc
+  assert_no_read_access  it         benoitp       benoitp
+  assert_read_access     it         christophev   christophev
+  assert_read_access     it         elenaa        elenaa
+  assert_no_read_access  it         evyt          evyt
+  assert_read_access     it         krisv         krisv
+  assert_no_read_access  it         leend         leend
+  assert_read_access     it         nehirb        nehirb
+  assert_no_read_access  it         stefaanv      stefaanv
+  assert_read_access     it         stevenh       stevenh
+  assert_no_read_access  it         stevenv       stevenv
+  assert_no_read_access  it         svena         svena
+  assert_read_access     it         ${admin_user} ${admin_user}
 }
 
-@test 'Check write access for share ‘staf’' {
-  write_access staf franka franka
-  write_access staf femkevdv femkevdv
-  no_write_access staf hansb hansb
-  no_write_access staf kimberlyvh kimberlyvh
-  no_write_access staf taniav taniav
-  no_write_access staf peterj peterj
-  write_access staf maaiked maaiked
-  write_access staf ${admin_user} ${admin_password}
+@test 'write access for share ‘it’' {
+  #                      Share      User          Password
+  assert_no_write_access it         alexanderd    alexanderd
+  assert_no_write_access it         anc           anc
+  assert_no_write_access it         benoitp       benoitp
+  assert_write_access    it         christophev   christophev
+  assert_no_write_access it         elenaa        elenaa
+  assert_no_write_access it         evyt          evyt
+  assert_no_write_access it         krisv         krisv
+  assert_no_write_access it         leend         leend
+  assert_write_access    it         nehirb        nehirb
+  assert_no_write_access it         stefaanv      stefaanv
+  assert_no_write_access it         stevenh       stevenh
+  assert_no_write_access it         stevenv       stevenv
+  assert_no_write_access it         svena         svena
+  assert_write_access    it         ${admin_user} ${admin_user}
 }
 
-@test 'Check read access for share ‘beheer’' {
-  no_read_access beheer franka franka
-  no_read_access beheer femkevdv femkevdv
-  no_read_access beheer hansb hansb
-  no_read_access beheer kimberlyvh kimberlyvh
-  no_read_access beheer taniav taniav
-  no_read_access beheer peterj peterj
-  read_access beheer maaiked maaiked
-  read_access beheer ${admin_user} ${admin_password}
-}
-
-@test 'Check write access for share ‘beheer’' {
-  no_write_access beheer franka franka
-  no_write_access beheer femkevdv femkevdv
-  no_write_access beheer hansb hansb
-  no_write_access beheer kimberlyvh kimberlyvh
-  no_write_access beheer taniav taniav
-  no_write_access beheer peterj peterj
-  write_access beheer maaiked maaiked
-  write_access beheer ${admin_user} ${admin_password}
-}
