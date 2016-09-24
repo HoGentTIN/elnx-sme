@@ -1,9 +1,5 @@
 # site.yml
 ---
-- hosts: srv001
-  sudo: true
-  roles: []
-
-- hosts: srv002
+- hosts: pu004
   sudo: true
   roles: []
