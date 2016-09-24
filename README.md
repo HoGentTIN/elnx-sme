@@ -36,7 +36,7 @@ An overview of all host (that are not all part of the assignment) in the network
 
 ![Diagram of the network to be set up](doc/avalon-network.png)
 
-The assignments for setting up individual hosts can be found in the [doc/](doc/) folder.
+
 
 ## Author/License information
 
