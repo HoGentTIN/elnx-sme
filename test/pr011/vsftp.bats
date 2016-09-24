@@ -145,7 +145,7 @@ assert_no_write_access() {
   assert_read_access     public     stevenh       stevenh
   assert_read_access     public     stevenv       stevenv
   assert_read_access     public     svena         svena
-  assert_read_access     public     ${admin_user} ${admin_user}
+  assert_read_access     public     ${admin_user} ${admin_password}
 }
 
 @test 'write access for share ‘public’' {
@@ -163,10 +163,11 @@ assert_no_write_access() {
   assert_write_access    public     stevenh       stevenh
   assert_write_access    public     stevenv       stevenv
   assert_write_access    public     svena         svena
-  assert_write_access    public     ${admin_user} ${admin_user}
+  assert_write_access    public     ${admin_user} ${admin_password}
 }
 
 @test 'read access for share ‘management’' {
+  skip
   #                      Share      User          Password
   assert_no_read_access  management alexanderd    alexanderd
   assert_no_read_access  management anc           anc
@@ -181,10 +182,11 @@ assert_no_write_access() {
   assert_read_access     management stevenh       stevenh
   assert_no_read_access  management stevenv       stevenv
   assert_no_read_access  management svena         svena
-  assert_no_read_access  management ${admin_user} ${admin_user}
+  assert_no_read_access  management ${admin_user} ${admin_password}
 }
 
 @test 'write access for share ‘management’' {
+  skip
   #                      Share      User          Password
   assert_no_write_access management alexanderd    alexanderd
   assert_no_write_access management anc           anc
@@ -199,10 +201,11 @@ assert_no_write_access() {
   assert_write_access    management stevenh       stevenh
   assert_no_write_access management stevenv       stevenv
   assert_no_write_access management svena         svena
-  assert_no_write_access management ${admin_user} ${admin_user}
+  assert_no_write_access management ${admin_user} ${admin_password}
 }
 
 @test 'read access for share ‘technical’' {
+  skip
   #                      Share      User          Password
   assert_read_access     technical  alexanderd    alexanderd
   assert_read_access     technical  anc           anc
@@ -217,10 +220,11 @@ assert_no_write_access() {
   assert_read_access     technical  stevenh       stevenh
   assert_read_access     technical  stevenv       stevenv
   assert_read_access     technical  svena         svena
-  assert_read_access     technical  ${admin_user} ${admin_user}
+  assert_read_access     technical  ${admin_user} ${admin_password}
 }
 
 @test 'write access for share ‘technical’' {
+  skip
   #                      Share      User          Password
   assert_write_access    technical  alexanderd    alexanderd
   assert_write_access    technical  anc           anc
@@ -235,10 +239,11 @@ assert_no_write_access() {
   assert_no_write_access technical  stevenh       stevenh
   assert_write_access    technical  stevenv       stevenv
   assert_no_write_access technical  svena         svena
-  assert_no_write_access technical  ${admin_user} ${admin_user}
+  assert_no_write_access technical  ${admin_user} ${admin_password}
 }
 
 @test 'read access for share ‘sales’' {
+  skip
   #                      Share      User          Password
   assert_no_read_access  sales      alexanderd    alexanderd
   assert_no_read_access  sales      anc           anc
@@ -253,10 +258,11 @@ assert_no_write_access() {
   assert_read_access     sales      stevenh       stevenh
   assert_no_read_access  sales      stevenv       stevenv
   assert_read_access     sales      svena         svena
-  assert_no_read_access  sales      ${admin_user} ${admin_user}
+  assert_no_read_access  sales      ${admin_user} ${admin_password}
 }
 
 @test 'write access for share ‘sales’' {
+  skip
   #                      Share      User          Password
   assert_no_write_access sales      alexanderd    alexanderd
   assert_no_write_access sales      anc           anc
@@ -271,10 +277,11 @@ assert_no_write_access() {
   assert_no_write_access sales      stevenh       stevenh
   assert_no_write_access sales      stevenv       stevenv
   assert_write_access    sales      svena         svena
-  assert_no_write_access sales      ${admin_user} ${admin_user}
+  assert_no_write_access sales      ${admin_user} ${admin_password}
 }
 
 @test 'read access for share ‘it’' {
+  skip
   #                      Share      User          Password
   assert_no_read_access  it         alexanderd    alexanderd
   assert_no_read_access  it         anc           anc
@@ -289,10 +296,11 @@ assert_no_write_access() {
   assert_read_access     it         stevenh       stevenh
   assert_no_read_access  it         stevenv       stevenv
   assert_no_read_access  it         svena         svena
-  assert_read_access     it         ${admin_user} ${admin_user}
+  assert_read_access     it         ${admin_user} ${admin_password}
 }
 
 @test 'write access for share ‘it’' {
+  skip
   #                      Share      User          Password
   assert_no_write_access it         alexanderd    alexanderd
   assert_no_write_access it         anc           anc
@@ -307,6 +315,6 @@ assert_no_write_access() {
   assert_no_write_access it         stevenh       stevenh
   assert_no_write_access it         stevenv       stevenv
   assert_no_write_access it         svena         svena
-  assert_write_access    it         ${admin_user} ${admin_user}
+  assert_write_access    it         ${admin_user} ${admin_password}
 }
 
