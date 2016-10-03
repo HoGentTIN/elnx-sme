@@ -3,7 +3,7 @@
 - Student: NAME
 - Repository: https://github/com/USER/REPO
 
-The goal of this assignment is to set up the infrastructure for a Small/Medium Enterprise (SME) in a virtualized environment using the [Ansible](https://ansible.com/) configuration management system. When you're finished, you should be able to recreate the entire infrastructure *from scratch* using a minimum of manual interventions, ideally a single command.
+The goal of this assignment is to set up the infrastructure for a Small/Medium Enterprise (SME) in a virtualized environment using the [Ansible](https://ansible.com/) configuration management system. When you're finished, you should be able to recreate the entire infrastructure *from scratch* using a minimum of manual interventions, ideally a single command (`vagrant up`).
 
 This repository contains the assignments, some scaffolding code to get you started, and automated acceptance tests to validate whether your solutions conforms to the specifications.
 
