@@ -37,6 +37,16 @@ An overview of all host (that are not all part of the assignment) in the network
 ![Diagram of the network to be set up](doc/avalon-network.png)
 
 
+## Reporting and documentation
+
+For each partial assignment, write a lab report. **Write documentation **while** you are working on your assignment, **not after** the facts. Your report contains the following elements:
+
+- A test plan: a list of steps to perform in order to verify that the requirements are met
+- A detailed description of the procedure/process you followed to meet these requirements. It is not necessary to repeat code that is elsewhere in this repository. However, all thought processes and considerations that are not in the code, but that have led you to go into a particular direction, should be clearly documented.
+- A test report: transcript of a test session according to your test plan that proves that the requirements are met.
+- A list of external resources you used: manuals, blog posts, books, etc.
+
+Use Github Issues and, optionally, Github Projects to keep a to-do list and visualise work in process. This is a valuable communication tool in the progress reports to your teacher.
 
 ## Author/License information
 
