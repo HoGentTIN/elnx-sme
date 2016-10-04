@@ -80,6 +80,8 @@ end
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   hosts.each do |host|
+    config.ssh.insert_key = false
+
     config.vm.define host['name'] do |node|
       node.vm.box = host['box'] ||= DEFAULT_BASE_BOX
       if host.has_key? 'box_url'
