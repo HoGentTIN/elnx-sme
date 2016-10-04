@@ -30,8 +30,9 @@ set -o pipefail # don’t hide errors within pipes
 #{{{ Variables
 readonly SCRIPT_NAME=$(basename "${0}")
 
-playbook=ansible/site.yml
-roles_path=ansible/roles
+readonly ansible_root=ansible
+readonly playbook=${ansible_root}/site.yml
+readonly roles_path=${ansible_root}/roles
 #}}}
 
 main() {
@@ -61,7 +62,11 @@ main() {
 # If the default roles path does not exist, try "roles/"
 set_roles_path() {
   if [ ! -d "${roles_path}" ]; then
-    roles_path="roles"
+    if [ -d "${ansible_root}" ]; then
+      mkdir "${roles_path}"
+    else
+      roles_path="roles"
+    fi
   fi
 }
 
