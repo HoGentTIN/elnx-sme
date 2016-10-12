@@ -49,8 +49,9 @@ find_tests() {
     max_depth="-maxdepth $2"
   fi
 
+
   local tests
-  tests=$(find "$1" "${max_depth}" -type f -name "${test_file_pattern}" -printf '%p\n' 2> /dev/null)
+  tests=$(find "$1" ${max_depth} -type f -name "${test_file_pattern}" -printf '%p\n' 2> /dev/null)
 
   echo "${tests}"
 }
@@ -61,6 +62,7 @@ install_bats_if_needed
 
 # List all test cases (i.e. files in the test dir matching the test file
 # pattern)
+
 # Tests to be run on all hosts
 global_tests=$(find_tests "${test_dir}" 1)
 
