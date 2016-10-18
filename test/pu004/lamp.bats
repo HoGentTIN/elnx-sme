@@ -46,10 +46,6 @@ wordpress_password=CorkIgWac
   [ -n "$(sestatus) | grep 'enforcing'" ]
 }
 
-@test 'Firewall: interface enp0s8 should be added to the public zone' {
-  firewall-cmd --list-all | grep 'interfaces.*enp0s8'
-}
-
 @test 'Web traffic should pass through the firewall' {
   firewall-cmd --list-all | grep 'services.*http\b'
   firewall-cmd --list-all | grep 'services.*https\b'
