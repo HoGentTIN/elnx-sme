@@ -99,11 +99,11 @@ wordpress_password=CorkIgWac
 }
 
 @test 'MariaDB should not have a test database' {
-  run mysql -uroot =p${mariadb_root_password} --execute 'show tables' test
+  run mysql -uroot -p${mariadb_root_password} --execute 'show tables' test
   [ "0" -ne "${status}" ]
 }
 
 @test 'MariaDB should not have anonymous users' {
-  result=$(mysql -uroot -pfogMeHud8 --execute "select * from user where user='';" mysql)
+  result=$(mysql -uroot -p${mariadb_root_password} --execute "select * from user where user='';" mysql)
   [ -z "${result}" ]
 }
