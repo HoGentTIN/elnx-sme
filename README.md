@@ -28,8 +28,8 @@ An overview of all host (that are not all part of the assignment) in the network
 | pu002       | ns2       | 192.0.2.11     | Secondary DNS            |
 | pu003       | mail      | 192.0.2.20     | Mail server              |
 | pu004       | www       | 192.0.2.50     | Webserver (LAMP)         |
-| pr001       | dhcp      | 172.16.0.1     | DHCP server              |
-| pr002       | directory | 172.16.0.2     | LDAP server              |
+| pr001       | dhcp      | 172.16.0.2     | DHCP server              |
+| pr002       | directory | 172.16.0.3     | LDAP server              |
 | pr010       | inside    | 172.16.0.10    | Intranet (LAMP)          |
 | pr011       | files     | 172.16.0.11    | Fileserver (Samba, FTP)  |
 | ws0001      |           | -              | Work station             |
