@@ -78,6 +78,23 @@ end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.insert_key = false
+  # VyOS Router
+  config.vm.define 'router' do |router|
+    router.vm.box = 'bertvv/vyos116'
+    router.vm.network :private_network,
+      ip: '192.0.2.254',
+      netmask: '255.255.255.0',
+      auto_config: false
+    router.vm.network :private_network,
+      ip: '172.16.255.254',
+      netmask: '255.255.0.0',
+      auto_config: false
+    router.ssh.insert_key = false
+
+    router.vm.provision "shell" do |sh|
+      sh.path = "scripts/router-config.sh"
+    end
+  end
   hosts.each do |host|
     config.vm.define host['name'] do |node|
       node.vm.box = host['box'] ||= DEFAULT_BASE_BOX
