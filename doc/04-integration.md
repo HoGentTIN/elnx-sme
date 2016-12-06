@@ -33,7 +33,7 @@ Known hosts should receive a reserved IP address based on their MAC address (wit
 
 ### Router
 
-  For the router, we're going to use a specialized Linux distribution, [VyOS](http://vyos.net/). The Vagrant configuration for this host will be considerably different to the others. In order to add it to the Vagrant environment, add the following code to the Vagrantfile, *outside of the loop* `hosts.each do |host|`
+  For the router, we're going to use a specialized Linux distribution, [VyOS](http://vyos.net/). The Vagrant configuration for this host will be considerably different to the others. Also, you should install a plugin that adds support for VyOS to Vagrant with `vagrant plugin install vagrant-vyos`. In order to add the router to the Vagrant environment, add the following code to the Vagrantfile, *outside of the loop* `hosts.each do |host|`
 
 ```Ruby
   # VyOS Router
