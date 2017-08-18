@@ -74,6 +74,7 @@ set_roles_path() {
 find_dependencies() {
   grep '    - .*\..*' "${playbook}" \
     | cut --characters=7- \
+    | grep --invert-match " " \
     | sort --unique
 }
 
