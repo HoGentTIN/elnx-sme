@@ -63,8 +63,8 @@ An overview of its interfaces:
 | `eth1`    | Host-only    | 192.0.2.254      | DMZ      |
 | `eth2`    | Host-only    | 172.16.255.254   | internal |
 
-- Configure the network interfaces, ensure `eth0` is used as WAN link. Assume that the network configuration settings on this interface was assigned by the Internet Service Provider of Avalon. Network traffic to the Internet should be forwarded to the correct IP address.
-- This router is also configured as a *forwarding* DNS server. This means that it does not have its own zone definitions, bit it forwards all requests to appropriate name servers:
+- Configure the network interfaces, ensure `eth0` is used as WAN link. Assume that the network configuration settings on this interface were assigned by the Internet Service Provider of Avalon. Network traffic to the Internet should be forwarded to the correct IP address.
+- This router is also configured as a *forwarding* DNS server. This means that it does not have its own zone definitions, but it forwards all requests to appropriate name servers:
     - DNS requests for the `avalon.lan` domain are forwarded to the authoritative name server you set up in a previous assignment;
     - All other DNS requests are forwarded to the appropriate IP address (the DNS servers assigned by the "ISP").
 - The internal network has a private IP range that should not be routed to the external network. Set up Network Address Translation for all traffic originating from the internal network.
