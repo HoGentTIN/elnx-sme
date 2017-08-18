@@ -19,7 +19,7 @@ In this assignment, the goal is to complete the network we've been building with
 
 ### DHCP
 
-Known hosts should receive a reserved IP address based on their MAC address (with a lease time of 12 hours). Hosts that do not have their MAC address registered should get a dynamic IP address (with a lease time of 4 hours). The IP range is subdivided as follows:
+Known hosts should receive a reserved IP address based on their MAC address. Hosts that do not have their MAC address registered should get a dynamic IP address. Configure a lease time of 12 hours. The IP range is subdivided as follows:
 
 | Start          | End            | Host type                                |
 | :---           | :---           | :---                                     |
@@ -33,40 +33,23 @@ Known hosts should receive a reserved IP address based on their MAC address (wit
 
 ### Router
 
-  For the router, we're going to use a specialized Linux distribution, [VyOS](http://vyos.net/). The Vagrant configuration for this host will be considerably different to the others. Also, you should install a plugin that adds support for VyOS to Vagrant with `vagrant plugin install vagrant-vyos`. In order to add the router to the Vagrant environment, add the following code to the Vagrantfile, *outside of the loop* `hosts.each do |host|`
+For the router, we're going to use a specialized Linux distribution, [VyOS](http://vyos.net/). VyOS is partly inspired by Cisco's IOS, so the workflow and commands may be a bit familiar. First, make yourself acquainted with the configuration commands.
 
-```Ruby
-  # VyOS Router
-  config.vm.define 'router' do |router|
-    router.vm.box = 'bertvv/vyos116'
-    router.vm.network :private_network,
-      ip: '192.0.2.254',
-      netmask: '255.255.255.0',
-      auto_config: false
-    router.vm.network :private_network,
-      ip: '172.16.255.254',
-      netmask: '255.255.0.0',
-      auto_config: false
-    router.ssh.insert_key = false
+The Vagrant configuration for this host will be considerably different to the others. Also, you should install a plugin that adds support for VyOS to Vagrant with `vagrant plugin install vagrant-vyos`.
 
-    router.vm.provision "shell" do |sh|
-      sh.path = "scripts/router-config.sh"
-    end
-  end
-```
+An overview of the network interfaces:
 
-An overview of its interfaces:
+| Interface | VBox adapter | IP address          | Remarks  |
+| :---      | :---         | :---                | :---     |
+| `eth0`    | NAT          | 10.0.2.15/24 (DHCP) | WAN link |
+| `eth1`    | Host-only    | 192.0.2.254/24      | DMZ      |
+| `eth2`    | Host-only    | 172.16.255.254/16   | internal |
 
-| Interface | VBox adapter | IP address       | Remarks  |
-| :---      | :---         | :---             | :---     |
-| `eth0`    | NAT          | 10.0.2.15 (DHCP) | WAN link |
-| `eth1`    | Host-only    | 192.0.2.254      | DMZ      |
-| `eth2`    | Host-only    | 172.16.255.254   | internal |
-
-- Configure the network interfaces, ensure `eth0` is used as WAN link. Assume that the network configuration settings on this interface were assigned by the Internet Service Provider of Avalon. Network traffic to the Internet should be forwarded to the correct IP address.
+- The configuration of the VyOS router is not done through Ansible, but with a shell script, `scripts/router-config.sh`. Some scaffolding code is already present in the script, with comments that explain which settings to be added.
+- Configure the network interfaces, ensure `eth0` is used as WAN link. Assume that the network configuration settings (IP address, gateway, DNS server) on this interface were assigned by the Internet Service Provider of Avalon. Network traffic from the local network to the Internet should be forwarded to the correct IP address.
 - This router is also configured as a *forwarding* DNS server. This means that it does not have its own zone definitions, but it forwards all requests to appropriate name servers:
-    - DNS requests for the `avalon.lan` domain are forwarded to the authoritative name server you set up in a previous assignment;
-    - All other DNS requests are forwarded to the appropriate IP address (the DNS servers assigned by the "ISP").
+    - DNS requests for the `avalon.lan` domain are forwarded to the authoritative name server you set up in a previous assignment (remark that VyOS only allows to set a single DNS server per domain for forwarding);
+    - All other DNS requests are forwarded to the appropriate IP address (the DNS server assigned by the "ISP"). *Don't use Google's DNS servers or other public DNS resolvers!*
 - The internal network has a private IP range that should not be routed to the external network. Set up Network Address Translation for all traffic originating from the internal network.
 - For synchronizing the system clock, most computer systems use NTP (Network Time Protocol). Delete the default NTP servers, and use the pool zone for your location (e.g. [be.pool.ntp.org](http://www.pool.ntp.org/zone/be) for Belgium). Also, set the time zone.
 
