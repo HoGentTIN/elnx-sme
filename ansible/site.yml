@@ -1,5 +1,5 @@
 # site.yml
 ---
 - hosts: pu004
-  sudo: true
+  become: true
   roles: []
