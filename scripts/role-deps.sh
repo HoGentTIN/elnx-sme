@@ -1,4 +1,4 @@
-#! /usr/bin/bash
+#! /usr/bin/env bash
 #
 # Author: Bert Van Vreckem <bert.vanvreckem@gmail.com>
 #
@@ -73,7 +73,7 @@ set_roles_path() {
 # Find dependencies in the specified playbook
 find_dependencies() {
   grep '    - .*\..*' "${playbook}" \
-    | cut --characters=7- \
+    | cut -c7- \
     | grep --invert-match " " \
     | sort --unique
 }
@@ -85,7 +85,7 @@ process_args() {
     usage
     exit 2
   elif [ "${#}" -eq "1" ]; then
-    if [ "${1}" = '-h' -o "${1}" = '--help' ]; then
+    if [ "${1}" = '-h' ] || [ "${1}" = '--help' ]; then
       usage
       exit 0
     elif [ ! -f "${1}" ]; then
@@ -95,7 +95,7 @@ process_args() {
     else
       playbook="${1}"
     fi
-  elif [ "${#}" -eq "0" -a ! -f "${playbook}" ]; then
+  elif [ "${#}" -eq "0" ] && [ ! -f "${playbook}" ]; then
     cat << _EOF_
 Default playbook ${playbook} not found. Maybe you should cd to the
 directory above ${playbook%%/*}/, or specify the playbook.
