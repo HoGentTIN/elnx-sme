@@ -107,8 +107,8 @@ assert_mx_lookup() {
 
 @test 'Forward lookups private servers' {
   #                     host name  IP
-  assert_forward_lookup pr001      172.16.0.1
-  assert_forward_lookup pr002      172.16.0.2
+  assert_forward_lookup pr001      172.16.0.2
+  assert_forward_lookup pr002      172.16.0.3
   assert_forward_lookup pr010      172.16.0.10
   assert_forward_lookup pr011      172.16.0.11
 }
@@ -123,8 +123,8 @@ assert_mx_lookup() {
 
 @test 'Reverse lookups private servers' {
   #                     host name  IP
-  assert_reverse_lookup pr001      172.16.0.1
-  assert_reverse_lookup pr002      172.16.0.2
+  assert_reverse_lookup pr001      172.16.0.2
+  assert_reverse_lookup pr002      172.16.0.3
   assert_reverse_lookup pr010      172.16.0.10
   assert_reverse_lookup pr011      172.16.0.11
 }
@@ -138,8 +138,8 @@ assert_mx_lookup() {
 }
 
 @test 'Alias lookups private servers' {
-  assert_alias_lookup dhcp       pr001     172.16.0.1
-  assert_alias_lookup directory  pr002     172.16.0.2
+  assert_alias_lookup dhcp       pr001     172.16.0.2
+  assert_alias_lookup directory  pr002     172.16.0.3
   assert_alias_lookup inside     pr010     172.16.0.10
   assert_alias_lookup files      pr011     172.16.0.11
 }
