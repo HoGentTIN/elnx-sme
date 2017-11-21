@@ -14,7 +14,7 @@ assert_forward_lookup() {
   local name="$1"
   local ip="$2"
 
-  [ "$ip" = "$(dig @${sut_ip} ${name}.${domain} +short)" ]
+  [ "$ip" = "$(dig @${sut_ip} "${name}.${domain}" +short)" ]
 }
 
 # Usage: assert_reverse_lookup NAME IP
@@ -23,8 +23,10 @@ assert_forward_lookup() {
 assert_reverse_lookup() {
   local name="$1"
   local ip="$2"
+  local result
+  result=$(dig @${sut_ip} -x "${ip}" +short)
 
-  [ "${name}.${domain}." = "$(dig @${sut_ip} -x ${ip} +short)" ]
+  [ "${name}.${domain}." = "${result}" ]
 }
 
 # Usage: assert_alias_lookup ALIAS NAME IP
@@ -34,17 +36,19 @@ assert_alias_lookup() {
   local alias="$1"
   local name="$2"
   local ip="$3"
-  local result="$(dig @${sut_ip} ${alias}.${domain} +short)"
+  local result
+  result=$(dig @${sut_ip} "${alias}.${domain}" +short)
 
-  echo ${result} | grep "${name}\.${domain}\."
-  echo ${result} | grep "${ip}"
+  echo "${result}" | grep "${name}\.${domain}\."
+  echo "${result}" | grep "${ip}"
 }
 
 # Usage: assert_ns_lookup NS_NAME...
 # Exits with status 0 if all specified host names occur in the list of
 # name servers for the domain.
 assert_ns_lookup() {
-  local result="$(dig @${sut_ip} ${domain} NS +short)"
+  local result
+  result=$(dig @${sut_ip} ${domain} NS +short)
 
   [ -n "${result}" ] # the list of name servers should not be empty
   while (( "$#" )); do
@@ -58,7 +62,8 @@ assert_ns_lookup() {
 # Exits with status 0 if all specified host names occur in the list of
 # mail servers for the domain.
 assert_mx_lookup() {
-  local result="$(dig @${sut_ip} ${domain} MX +short)"
+  local result
+  result=$(dig @${sut_ip} ${domain} MX +short)
 
   [ -n "${result}" ] # the list of name servers should not be empty
   while (( "$#" )); do
