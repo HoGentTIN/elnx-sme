@@ -34,7 +34,7 @@ An overview of all host (that are not all part of the assignment) in the network
 | pr011       | files     | 172.16.0.11    | Fileserver (Samba, FTP)  |
 | ws0001      |           | -              | Work station             |
 
-![Diagram of the network to be set up](doc/avalon-network.png)
+![Diagram of the network to be set up](assignment/avalon-network.png)
 
 
 ## Reporting and documentation
