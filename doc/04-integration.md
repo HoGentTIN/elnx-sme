@@ -33,9 +33,9 @@ Known hosts should receive a reserved IP address based on their MAC address. Hos
 
 ### Router
 
-For the router, we're going to use a specialized Linux distribution, [VyOS](http://vyos.net/). VyOS is partly inspired by Cisco's IOS, so the workflow and commands may be a bit familiar. First, make yourself acquainted with the configuration commands.
+The Vagrant configuration for the router is already provided (in `Vagrantfile`), and is considerably different from the others. You should install a plugin that adds support for VyOS to Vagrant with `vagrant plugin install vagrant-vyos`. `vagrant status` should show the router, and you should be able to boot it.
 
-The Vagrant configuration for this host will be considerably different to the others. Also, you should install a plugin that adds support for VyOS to Vagrant with `vagrant plugin install vagrant-vyos`.
+The router runs a specialized Linux distribution, [VyOS](http://vyos.net/). VyOS is partly inspired by Cisco's IOS, so the workflow and commands may be a bit familiar. First, make yourself acquainted with the configuration commands.
 
 An overview of the network interfaces:
 
