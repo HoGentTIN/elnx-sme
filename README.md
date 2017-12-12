@@ -22,7 +22,7 @@ An overview of all host (that are not all part of the assignment) in the network
 | :---        | :---      | :---           | :---                     |
 | Host system | -         | 192.0.2.1      | Your own computer/laptop |
 |             |           | 172.16.0.1     |                          |
-| r001        | gw        | 192.0.2.254    | Router/DNS forwarder     |
+| router      | gw        | 192.0.2.254    | Router/DNS forwarder     |
 |             |           | 172.16.255.254 |                          |
 | pu001       | ns1       | 192.0.2.10     | Primary DNS              |
 | pu002       | ns2       | 192.0.2.11     | Secondary DNS            |
