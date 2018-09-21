@@ -1,34 +1,48 @@
-# -*- mode: ruby -*-
-# vi: ft=ruby :
+# One Vagrantfile to rule them all!
+#
+# This is a generic Vagrantfile that can be used without modification in
+# a variety of situations. Hosts and their properties are specified in
+# `vagrant-hosts.yml`. Provisioning is done by an Ansible playbook,
+# `ansible/site.yml`.
+#
+# See https://github.com/bertvv/ansible-skeleton/ for details
 
 require 'rbconfig'
 require 'yaml'
 
 # Set your default base box here
-DEFAULT_BASE_BOX = 'bento/centos-7.4'
-
-VAGRANTFILE_API_VERSION = '2'
-PROJECT_NAME = '/' + File.basename(Dir.getwd)
+DEFAULT_BASE_BOX = 'bento/centos-7.5'
+ROUTER_BASE_BOX = 'samdoran/vyos'
 
 # When set to `true`, Ansible will be forced to be run locally on the VM
 # instead of from the host machine (provided Ansible is installed).
 FORCE_LOCAL_RUN = false
 
+#
+# No changes needed below this point
+#
+
+VAGRANTFILE_API_VERSION = '2'
+PROJECT_NAME = '/' + File.basename(Dir.getwd)
+
 hosts = YAML.load_file('vagrant-hosts.yml')
 
 # {{{ Helper functions
 
-def provision_ansible(config)
+def provision_ansible(config, host)
   if run_locally?
     # Provisioning configuration for shell script.
     config.vm.provision 'shell' do |sh|
-      sh.path = 'scripts/playbook-win.sh'
+      sh.path = 'scripts/run-playbook-locally.sh'
     end
   else
     # Provisioning configuration for Ansible (for Mac/Linux hosts).
     config.vm.provision 'ansible' do |ansible|
-      ansible.playbook = 'ansible/site.yml'
-      ansible.sudo = true
+      ansible.playbook = host.key?('playbook') ?
+          "ansible/#{host['playbook']}" :
+          "ansible/site.yml"
+      ansible.become = true
+      ansible.compatibility_mode = '2.0'
     end
   end
 end
@@ -38,7 +52,7 @@ def run_locally?
 end
 
 def windows_host?
-  RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+  Vagrant::Util::Platform.windows?
 end
 
 # Set options for the network interface configuration. All values are
@@ -76,25 +90,61 @@ end
 
 # }}}
 
+
+# Set options for shell provisioners to be run always. If you choose to include
+# it you have to add a cmd variable with the command as data.
+#
+# Use case: start symfony dev-server
+#
+# example:
+# shell_always:
+#   - cmd: php /srv/google-dev/bin/console server:start 192.168.52.25:8080 --force
+def shell_provisioners_always(vm, host)
+  if host.has_key?('shell_always')
+    scripts = host['shell_always']
+
+    scripts.each do |script|
+      vm.provision "shell", inline: script['cmd'], run: "always"
+    end
+  end
+end
+
+# }}}
+
+# Adds forwarded ports to your Vagrant machine
+#
+# example:
+#  forwarded_ports:
+#    - guest: 88
+#      host: 8080
+def forwarded_ports(vm, host)
+  if host.has_key?('forwarded_ports')
+    ports = host['forwarded_ports']
+
+    ports.each do |port|
+      vm.network "forwarded_port", guest: port['guest'], host: port['host']
+    end
+  end
+end
+
+# }}}
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.ssh.insert_key = false
-  # VyOS Router
-  config.vm.define 'router' do |router|
-    router.vm.box = 'bertvv/vyos116'
+  config.vm.define 'router' do |router |
+    router.vm.box = ROUTER_BASE_BOX
     router.vm.network :private_network,
       ip: '192.0.2.254',
-      netmask: '255.255.255.0',
-      auto_config: false
+      netmask: '255.255.255.0'
     router.vm.network :private_network,
       ip: '172.16.255.254',
-      netmask: '255.255.0.0',
-      auto_config: false
+      netmask: '255.255.0.0'
     router.ssh.insert_key = false
 
     router.vm.provision "shell" do |sh|
       sh.path = "scripts/router-config.sh"
     end
   end
+
   hosts.each do |host|
     config.vm.define host['name'] do |node|
       node.vm.box = host['box'] ||= DEFAULT_BASE_BOX
@@ -103,13 +153,21 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       node.vm.hostname = host['name']
       node.vm.network :private_network, network_options(host)
       custom_synced_folders(node.vm, host)
+      shell_provisioners_always(node.vm, host)
+      forwarded_ports(node.vm, host)
 
+      # Add VM to a VirtualBox group
       node.vm.provider :virtualbox do |vb|
         # WARNING: if the name of the current directory is the same as the
         # host name, this will fail.
         vb.customize ['modifyvm', :id, '--groups', PROJECT_NAME]
       end
+
+      # Run Ansible playbook for the VM
+      provision_ansible(config, host)
     end
   end
-  provision_ansible(config)
 end
+
+# -*- mode: ruby -*-
+# vi: ft=ruby
