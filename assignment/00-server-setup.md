@@ -2,6 +2,8 @@
 
 Apply the role `bertvv.rh-base` to the (currently only) server in our setup. Ensure that all hosts in the network will meet the following requirements:
 
+- The firewall should be enabled and running.
+- SELinux should be set to 'Enforcing'.
 - The EPEL repository must be installed (Extra Packages for Enterprise Linux, a third-party package repository)
 - The following packages must be installed on all servers
     - bash-completion
@@ -23,7 +25,7 @@ All machines in the setup can be tested by executing the following command:
 $ sudo /vagrant/test/runbats.sh
 ```
 
-The first time you execute this script, it will install [BATS](https://github.com/sstephenson/bats), a unit testing framework written in Bash. There are test suites for every assigment in order to verify whether the requirements are met.
+The first time you execute this script, it will install [BATS](https://github.com/bats-core/bats-core), a unit testing framework written in Bash. There are test suites for every assigment in order to verify whether the requirements are met.
 
 The test script `test/common.bats` will be executed on *all* hosts in the setup. Test scripts that are specific to one server are stored in a subdirectory with the same name as the server.
 
