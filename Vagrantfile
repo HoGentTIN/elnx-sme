@@ -10,6 +10,9 @@
 require 'rbconfig'
 require 'yaml'
 
+# set default LC_ALL for all BOXES
+ENV["LC_ALL"] = "en_US.UTF-8"
+
 # Set your default base box here
 DEFAULT_BASE_BOX = 'bento/centos-7.5'
 ROUTER_BASE_BOX = 'samdoran/vyos'
@@ -25,25 +28,25 @@ FORCE_LOCAL_RUN = false
 VAGRANTFILE_API_VERSION = '2'
 PROJECT_NAME = '/' + File.basename(Dir.getwd)
 
-hosts = YAML.load_file('vagrant-hosts.yml')
+vagranthosts = ENV['VAGRANTS_HOST'] ? ENV['VAGRANTS_HOST'] : 'vagrant-hosts.yml'
+hosts = YAML.load_file(File.join(__dir__, vagranthosts))
 
 # {{{ Helper functions
 
 def provision_ansible(config, host)
   if run_locally?
-    # Provisioning configuration for shell script.
-    config.vm.provision 'shell' do |sh|
-      sh.path = 'scripts/run-playbook-locally.sh'
-    end
+    ansible_mode = 'ansible_local'
   else
-    # Provisioning configuration for Ansible (for Mac/Linux hosts).
-    config.vm.provision 'ansible' do |ansible|
-      ansible.playbook = host.key?('playbook') ?
-          "ansible/#{host['playbook']}" :
-          "ansible/site.yml"
-      ansible.become = true
-      ansible.compatibility_mode = '2.0'
-    end
+    ansible_mode = 'ansible'
+  end
+
+  # Provisioning configuration for Ansible (for Mac/Linux hosts).
+  config.vm.provision ansible_mode do |ansible|
+    ansible.playbook = host.key?('playbook') ?
+        "ansible/#{host['playbook']}" :
+        "ansible/site.yml"
+    ansible.become = true
+    ansible.compatibility_mode = '2.0'
   end
 end
 
