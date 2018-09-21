@@ -3,6 +3,15 @@
 # Acceptance test script for srv010
 admin_user=bert
 
+@test "SELinux should be set to 'Enforcing'" {
+  [ 'Enforcing' = $(getenforce) ]
+}
+
+@test "Firewall should be enabled and running" {
+  systemctl is-active firewalld.service
+  systemctl is-enabled firewalld.service
+}
+
 @test "EPEL repository should be available" {
   [ -n "$(yum -C repolist | grep 'epel')" ]
 }
@@ -44,9 +53,16 @@ admin_user=bert
   [ -n "$(groups ${admin_user} | grep wheel)" ]
 }
 
-@test "Custom /etc/motd should have been installed" {
-  [ -f /etc/motd ]
-  [ -n "$(grep enp0s3 /etc/motd)" ]
+@test "An SSH key should have been installed for ${admin_user}" {
+  local keyfile="/home/${admin_user}/.ssh/authorized_keys"
+  [ -f "${keyfile}" ]
+  [ -s "${keyfile}" ] # should be nonempty
+  [ $(stat --format="%a" "${keyfile}") = '600' ]
+
 }
 
+@test "Custom /etc/motd should have been installed" {
+  [ -f /etc/motd ] # is a regular file
+  [ -s /etc/motd ] # is nonempty
+}
 
