@@ -13,7 +13,7 @@ admin_user=bert
 }
 
 @test "EPEL repository should be available" {
-  [ -n "$(yum -C repolist | grep 'epel')" ]
+  [ -n "$(yum repolist | grep 'epel')" ]
 }
 
 @test "Bash-completion should have been installed" {
