@@ -14,7 +14,7 @@ require 'yaml'
 ENV["LC_ALL"] = "en_US.UTF-8"
 
 # Set your default base box here
-DEFAULT_BASE_BOX = 'bento/centos-7.5'
+DEFAULT_BASE_BOX = 'bento/centos-7.6'
 ROUTER_BASE_BOX = 'samdoran/vyos'
 
 # When set to `true`, Ansible will be forced to be run locally on the VM
@@ -28,27 +28,14 @@ FORCE_LOCAL_RUN = false
 VAGRANTFILE_API_VERSION = '2'
 PROJECT_NAME = '/' + File.basename(Dir.getwd)
 
-vagranthosts = ENV['VAGRANTS_HOST'] ? ENV['VAGRANTS_HOST'] : 'vagrant-hosts.yml'
-hosts = YAML.load_file(File.join(__dir__, vagranthosts))
+# set custom vagrant-hosts file
+vagrant_hosts = ENV['VAGRANT_HOSTS'] ? ENV['VAGRANT_HOSTS'] : 'vagrant-hosts.yml'
+hosts = YAML.load_file(File.join(__dir__, vagrant_hosts))
+
+vagrant_groups = ENV['VAGRANT_GROUPS'] ? ENV['VAGRANT_GROUPS'] : 'vagrant-groups.yml'
+groups = YAML.load_file(File.join(__dir__, vagrant_groups))
 
 # {{{ Helper functions
-
-def provision_ansible(config, host)
-  if run_locally?
-    ansible_mode = 'ansible_local'
-  else
-    ansible_mode = 'ansible'
-  end
-
-  # Provisioning configuration for Ansible (for Mac/Linux hosts).
-  config.vm.provision ansible_mode do |ansible|
-    ansible.playbook = host.key?('playbook') ?
-        "ansible/#{host['playbook']}" :
-        "ansible/site.yml"
-    ansible.become = true
-    ansible.compatibility_mode = '2.0'
-  end
-end
 
 def run_locally?
   windows_host? || FORCE_LOCAL_RUN
@@ -112,6 +99,20 @@ def shell_provisioners_always(vm, host)
   end
 end
 
+def provision_ansible(node, host, groups)
+  ansible_mode = run_locally? ? 'ansible_local' : 'ansible'
+  node.vm.provision ansible_mode do |ansible|
+    ansible.compatibility_mode = '2.0'
+    if ! groups.nil?
+      ansible.groups = groups
+    end
+    ansible.playbook = host.key?('playbook') ?
+        "ansible/#{host['playbook']}" :
+        "ansible/site.yml"
+    ansible.become = true
+  end
+end
+
 # }}}
 
 # Adds forwarded ports to your Vagrant machine
@@ -159,15 +160,18 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       shell_provisioners_always(node.vm, host)
       forwarded_ports(node.vm, host)
 
-      # Add VM to a VirtualBox group
       node.vm.provider :virtualbox do |vb|
+        vb.memory = host['memory'] if host.key? 'memory'
+        vb.cpus = host['cpus'] if host.key? 'cpus'
+
+        # Add VM to a VirtualBox group
         # WARNING: if the name of the current directory is the same as the
         # host name, this will fail.
         vb.customize ['modifyvm', :id, '--groups', PROJECT_NAME]
       end
 
-      # Run Ansible playbook for the VM
-      provision_ansible(config, host)
+      # Ansible provisioning
+      provision_ansible(node, host, groups)
     end
   end
 end
