@@ -15,31 +15,41 @@ set -o nounset  # abort on unbound variable
 
 test_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-bats_archive="v1.1.0.tar.gz"
+bats_version="1.1.0"
+bats_archive="v${bats_version}.tar.gz"
 bats_url="https://github.com/bats-core/bats-core/archive/${bats_archive}"
-bats_install_dir="/opt"
-bats="${bats_install_dir}/bats/bin/bats"
+bats_install_dir="/usr/local"
+bats="${bats_install_dir}/bin/bats"
 
 test_file_pattern="*.bats"
 
 # color definitions
-Blue='\e[0;34m'
-Yellow='\e[0;33m'
-Reset='\e[0m'
+blue='\e[0;34m'
+yellow='\e[0;33m'
+reset='\e[0m'
 
 #}}}
 #{{{ Functions
 
+# Predicate that checks whether BATS is installed
+is_bats_installed() {
+  test -f "${bats}"
+}
+
 # Usage: install_bats_if_needed
 install_bats_if_needed() {
-  pushd "${bats_install_dir}" > /dev/null
-  if [[ ! -d "${bats_install_dir}/bats" ]]; then
+  if ! is_bats_installed; then
+    echo -e "${blue}Installing BATS${reset}"
+    cd /tmp
     wget "${bats_url}"
     tar xf "${bats_archive}"
-    mv bats-* bats
+    (
+      cd "./bats-core-${bats_version}/"
+      ./install.sh "${bats_install_dir}"
+    )
     rm "${bats_archive}"
+    rm -r "/tmp/bats-core-${bats_version}"
   fi
-  popd > /dev/null
 }
 
 # find_tests DIR [MAX_DEPTH]
@@ -49,9 +59,8 @@ find_tests() {
     max_depth="-maxdepth $2"
   fi
 
-
   local tests
-  tests=$(find "$1" ${max_depth} -type f -name "${test_file_pattern}" -printf '%p\n' 2> /dev/null)
+  tests=$(find "$1" "${max_depth}" -type f -name "${test_file_pattern}" -printf '%p\n' 2> /dev/null)
 
   echo "${tests}"
 }
@@ -70,7 +79,7 @@ global_tests=$(find_tests "${test_dir}" 1)
 host_tests=$(find_tests "${test_dir}/${HOSTNAME}")
 
 # Loop over test files
-for test_case in ${global_tests} ${host_tests}; do
-  echo -e "${Blue}Running test ${Yellow}${test_case}${Reset}"
-  ${bats} "${test_case}"
+for test_suite in ${global_tests} ${host_tests}; do
+  echo -e "${blue}Running test ${yellow}${test_suite}${reset}"
+  ${bats} "${test_suite}"
 done
