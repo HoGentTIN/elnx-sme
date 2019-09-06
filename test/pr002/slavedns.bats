@@ -2,8 +2,8 @@
 #
 # Acceptance test for the DNS server for linuxlab.lan
 
-sut_ip=192.0.2.11
-master_dns=192.0.2.10
+sut_ip=172.16.192.2
+master_dns=172.16.192.1
 domain=avalon.lan
 
 #{{{ Helper functions
@@ -104,54 +104,55 @@ assert_mx_lookup() {
 @test 'Forward lookups public servers' {
   #                     host name  IP
   assert_forward_lookup pu001      192.0.2.10
-  assert_forward_lookup pu002      192.0.2.11
-  assert_forward_lookup pu003      192.0.2.20
-  assert_forward_lookup pu004      192.0.2.50
+  assert_forward_lookup pu002      192.0.2.20
 }
 
 @test 'Forward lookups private servers' {
   #                     host name  IP
-  assert_forward_lookup pr001      172.16.0.2
-  assert_forward_lookup pr002      172.16.0.3
-  assert_forward_lookup pr010      172.16.0.10
-  assert_forward_lookup pr011      172.16.0.11
+  assert_forward_lookup pr001      172.16.192.1
+  assert_forward_lookup pr002      172.16.192.2
+  assert_forward_lookup pr003      172.16.192.3
+  assert_forward_lookup pr004      172.16.192.4
+  assert_forward_lookup pr010      172.16.192.10
+  assert_forward_lookup pr011      172.16.192.11
 }
 
 @test 'Reverse lookups public servers' {
   #                     host name  IP
   assert_reverse_lookup pu001      192.0.2.10
-  assert_reverse_lookup pu002      192.0.2.11
-  assert_reverse_lookup pu003      192.0.2.20
-  assert_reverse_lookup pu004      192.0.2.50
+  assert_reverse_lookup pu002      192.0.2.20
 }
 
 @test 'Reverse lookups private servers' {
   #                     host name  IP
-  assert_reverse_lookup pr001      172.16.0.2
-  assert_reverse_lookup pr002      172.16.0.3
-  assert_reverse_lookup pr010      172.16.0.10
-  assert_reverse_lookup pr011      172.16.0.11
+  assert_reverse_lookup pr001      172.16.192.1
+  assert_reverse_lookup pr002      172.16.192.2
+  assert_reverse_lookup pr003      172.16.192.3
+  assert_reverse_lookup pr004      172.16.192.4
+  assert_reverse_lookup pr010      172.16.192.10
+  assert_reverse_lookup pr011      172.16.192.11
 }
 
 @test 'Alias lookups public servers' {
   #                   alias      hostname  IP
-  assert_alias_lookup ns1        pu001     192.0.2.10
-  assert_alias_lookup ns2        pu002     192.0.2.11
-  assert_alias_lookup mail       pu003     192.0.2.20
-  assert_alias_lookup www        pu004     192.0.2.50
+  assert_alias_lookup www        pu001      192.0.2.10
+  assert_alias_lookup mail       pu002      192.0.2.20
 }
 
 @test 'Alias lookups private servers' {
-  assert_alias_lookup dhcp       pr001     172.16.0.2
-  assert_alias_lookup directory  pr002     172.16.0.3
-  assert_alias_lookup inside     pr010     172.16.0.10
-  assert_alias_lookup files      pr011     172.16.0.11
+  #                   alias      hostname  IP
+  assert_alias_lookup ns1        pr001      172.16.192.1
+  assert_alias_lookup ns2        pr002      172.16.192.2
+  assert_alias_lookup dhcp       pr003      172.16.192.3
+  assert_alias_lookup directory  pr004      172.16.192.4
+  assert_alias_lookup inside     pr010      172.16.192.10
+  assert_alias_lookup files      pr011      172.16.192.11
 }
 
 @test 'NS record lookup' {
-  assert_ns_lookup pu001 pu002
+  assert_ns_lookup pr001 pr002
 }
 
 @test 'Mail server lookup' {
-  assert_mx_lookup 10 pu003
+  assert_mx_lookup 10 pu002
 }

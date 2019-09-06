@@ -7,7 +7,7 @@
 #
 # Variables
 #
-sut_ip=172.16.0.11   # IP of the System Under Test
+sut_ip=172.16.192.11   # IP of the System Under Test
 admin_user=bert      # User with admin privileges
 admin_password=bert
 testfile="tst${RANDOM}"
@@ -317,4 +317,3 @@ assert_no_write_access() {
   assert_no_write_access it         svena         svena
   assert_write_access    it         ${admin_user} ${admin_password}
 }
-

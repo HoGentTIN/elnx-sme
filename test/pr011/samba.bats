@@ -4,8 +4,10 @@
 #
 # Test a Samba server
 
-
-sut_ip=172.16.0.11     # IP of the system under test
+#
+# Variables
+#
+sut_ip=172.16.192.11   # IP of the system under test
 sut_wins_name=FILES    # NetBIOS name
 workgroup=AVALON       # Workgroup
 admin_user=bert        # User with admin privileges
@@ -390,4 +392,3 @@ assert_group_write_dir() {
   assert_no_write_access it         svena         svena
   assert_write_access    it         ${admin_user} ${admin_password}
 }
-
