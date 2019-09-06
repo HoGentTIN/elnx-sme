@@ -134,6 +134,7 @@ end
 # }}}
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # "Manual" configuration of the router
   config.vm.define 'router' do |router |
     router.vm.box = ROUTER_BASE_BOX
     router.vm.network :private_network,
@@ -149,6 +150,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
+  # Configure other hosts according to vagrant-hosts.yml
   hosts.each do |host|
     config.vm.define host['name'] do |node|
       node.vm.box = host['box'] ||= DEFAULT_BASE_BOX
