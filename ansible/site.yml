@@ -1,5 +1,6 @@
 # site.yml
 ---
-- hosts: pu004
+
+- hosts: pu001
   become: true
   roles: []
