@@ -64,9 +64,33 @@ There are no automated tests for validating the DHCP server, so you need to use 
 Some suggestions:
 
 - Create a new VirtualBox VM manually, give it two host-only network interfaces, both attached to the VirtualBox host-only network with IP 172.16.0.0/16.
-- Write down the MAC address of one of the two interfaces (or set it manually).
+    - Write down the MAC address of one of the two interfaces (or set it manually, e.g. "DE:AD:C0:DE:CA:FE"), and ensure the DHCP gives that host a reserved IP address from the correct address range.
+    - Both network interfaces can be attached at the same time, but you could disconnect the cable of one
 - Boot the VM with a LiveCD ISO (e.g. Fedora, but Ubuntu, Kali, etc. should also be fine).
-- Ensure both interfaces will get an IP address assigned by DHCP
-- Check the IP addresses: one should be the reserved IP address, the other should come from the pool of dynamic addresses.
 
-Finally, this VM should be able to view the "company website" by surfing to <http://www.avalon.lan/> in a web browser and be able to access the fileserver both through SMB (e.g. `\\FILES\public\` or `smb://files/public`) and FTP (<ftp://files.avalon.lan/>).
+Things to check (follow the guidelines for bottom-up troubleshooting!):
+
+- **Network access layer**
+    - Is the workstation connected to the correct VirtualBox Host-only network?
+    - Is any NAT or bridged interface disabled (or cable disconnected)?
+- **Internet layer**
+    - Did the VM receive correct IP settings from the DHCP server?
+        - IP address in the correct range for either guest with dynamic IP or reserved IP?
+        - Correct subnet mask?
+        - DNS server?
+        - Default gateway?
+    - LAN connectivity: can you ping
+        - other hosts in the same network?
+        - the gateway? All its IP addresses?
+        - a host in the DMZ?
+        - the default gateway of the router?
+    - Is the DNS server responsive?
+        - does it resolve www.avalon.lan?
+            - does it resolve an external name? (e.g. www.google.com, icanhazip.com)
+        - does it resolve reverse lookups for avalon.lan? (e.g. 192.0.2.10, 172.16.192.1)
+- **Transport layer**
+    - Not applicable, as no services run on the workstation
+- **Application layer**: Are network services available?
+    - Is <http://www.avalon.lan/wordpress/> visible?
+    - Is an external website, e.g. <http://icanhazip.com/>, visible?
+    - is the fileserver available? e.g. smb://files/public or `ftp files.avalon.lan`.
