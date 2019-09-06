@@ -75,7 +75,7 @@ assert_mx_lookup() {
 
 #}}}
 
-@test 'The `dig` command should be installed' {
+@test 'The dig command should be installed' {
   which dig
 }
 
