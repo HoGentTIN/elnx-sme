@@ -23,11 +23,11 @@ SELinux should be active ("enforcing"). The firewall should be up and only allow
 
 The MariaDB database is installed by default with an empty root password, anonymous users (i.e. users with an empty string as user name) and a database named `test`. These should *not* be present in the final system. Use strong passwords.
 
-The web server should also support encrypted communication over HTTPS. When installing HTTPS support for Apache, a default server key and certificate are installed (in `/etc/pki/tls/private` and `/etc/pki/tls/certs`, respectively). [Generate a new (self-signed) certificate](https://wiki.centos.org/HowTos/Https) and ensure that it is installed on the webserver, and that Apache is configured to use that, rather than the default. Remark that generating the certificate should not be part of your Ansible playbook. Create the certificate once, manually. Then copy the necessary files to the correct location within the directory containing your Ansible playbook (usually a subdirectory `files/`).
+The web server should also support encrypted communication over HTTPS. When installing HTTPS support for Apache, a default server key and certificate are installed (in `/etc/pki/tls/private` and `/etc/pki/tls/certs`, respectively). [Generate a new (self-signed) certificate](https://wiki.centos.org/HowTos/Https) and ensure that it is installed on the webserver, and that Apache is configured to use that, rather than the default. Remark that generating the certificate should not be part of your Ansible playbook. Create the certificate once, manually. Then copy the necessary files to the correct location within the directory containing your Ansible playbook (usually a subdirectory `files/`). Your Vagrant/Ansible project directory is mounted inside your VM under `/vagrant/`.
 
 ## Testing
 
-In the test script `test/pu004/lamp.bats`, you may want to change the variables in the test script to the values you have used in your configuration script:
+In the test script `test/pu001/lamp.bats`, you may want to change the variables in the test script to the values you have used in your configuration script:
 
 ```bash
 mariadb_root_password=fogMeHud8

@@ -22,7 +22,7 @@ Apply the role `bertvv.rh-base` to the (currently only) server in our setup. Ens
 All machines in the setup can be tested by executing the following command:
 
 ```console
-$ sudo /vagrant/test/runbats.sh
+sudo /vagrant/test/runbats.sh
 ```
 
 The first time you execute this script, it will install [BATS](https://github.com/bats-core/bats-core), a unit testing framework written in Bash. There are test suites for every assigment in order to verify whether the requirements are met.
@@ -43,13 +43,13 @@ Every lab report should contain a test plan. To give an idea of what is meant by
 
 1. On the host system, go to the local working directory of the project repository
 2. Execute `vagrant status`
-    - There should be one VM, `pu004` with status `not created`. If the VM does exist, destroy it first with `vagrant destroy -f pu004`
-3. Execute `vagrant up pu004`
+    - There should be one VM, `pu001` with status `not created`. If the VM does exist, destroy it first with `vagrant destroy -f pu001`
+3. Execute `vagrant up pu001`
     - The command should run without errors (exit status 0)
-4. Log in on the server with `vagrant ssh pu004` and run the acceptance tests. They should succeed
+4. Log in on the server with `vagrant ssh pu001` and run the acceptance tests. They should succeed
 
-    ```
-    [vagrant@pu004 test]$ sudo /vagrant/test/runbats.sh
+    ```console
+    [vagrant@pu001 test]$ sudo /vagrant/test/runbats.sh
     Running test /vagrant/test/common.bats
     ✓ EPEL repository should be available
     ✓ Bash-completion should have been installed
@@ -69,11 +69,10 @@ Every lab report should contain a test plan. To give an idea of what is meant by
 
 5. Log off from the server and ssh to the VM as described below. You should **not** get a password prompt.
 
-    ```
+    ```console
     $ ssh bert@192.0.2.50
-    Welcome to pu004.localdomain.
+    Welcome to pu001.localdomain.
     enp0s3     : 10.0.2.15         fe80::a00:27ff:fe5c:6428/64
     enp0s8     : 192.0.2.50        fe80::a00:27ff:fecd:aeed/64
-    [bert@pu004 ~]$
+    [bert@pu001 ~]$
     ```
- 

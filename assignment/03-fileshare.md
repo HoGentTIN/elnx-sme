@@ -28,7 +28,7 @@ The host name and IP address are specified in the host overview in the README. S
 By reusing existing Ansible roles, a part of the complexity of this assignment is mitigated. However, it is important to be aware of what happens on the server, what the contents of the configuration files are. When you need to troubleshoot a system, this is essential.
 
 - The setup is completely automated using Ansible
-- The included file <avalon-employees.csv> contains a list of all users of the file server. Every user should get an account to access the file server. Every business unit has its own share, and there's also a public one:
+- The included file `avalon-employees.csv` contains a list of all users of the file server. Every user should get an account to access the file server. Every business unit has its own share, and there's also a public one:
     - management
     - technical (software development)
     - sales
@@ -45,7 +45,7 @@ By reusing existing Ansible roles, a part of the complexity of this assignment i
 - Printer sharing is turned off
 - Anonymous browsing on the file server is prohibited, users need an account in order to view the shares
 
-Tip: access management is best done through user groups. Create a user group for each share, and only specify access rights for groups. When you would have to add new users later, it suffices to add them to the group for their business unit to give the correct access rights.
+Tip: access management is best done through **user groups**. Create a user group for each share, and only specify access rights for groups. When you would have to add new users later, it suffices to add them to the group for their business unit to give the correct access rights.
 
 ## Testing
 
