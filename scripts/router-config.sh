@@ -9,7 +9,7 @@ delete system console device ttyS0
 #
 # Basic settings
 #
-set system host-name 'Router'
+set system host-name 'router'
 #set service ssh port '22'
 
 #
