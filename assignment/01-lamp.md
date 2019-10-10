@@ -17,7 +17,7 @@
 
 A web site is often essential to the public image of an enterprise. This is the first service we will set up for our network. We will be using Apache, MariaDB, and Wordpress as the building blocks for the website.
 
-The installation should be completely automated with Vagrant and Ansible. You can use existing roles (e.g from <https://galaxy.ansible.com/bertvv/>). After `vagrant up` (when the VM is not yet created), the install page of Wordpress should be visible if you use a browser from the *host system* to surf to <https://192.0.2.50/wordpress/>.
+The installation should be completely automated with Vagrant and Ansible. You can use existing roles (e.g from <https://galaxy.ansible.com/bertvv/>). After `vagrant up` (when the VM is not yet created), the install page of Wordpress should be visible if you use a browser from the *host system* to surf to <https://192.0.2.10/wordpress/>.
 
 SELinux should be active ("enforcing"). The firewall should be up and only allow ssh and web traffic.
 
