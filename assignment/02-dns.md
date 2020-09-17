@@ -23,7 +23,7 @@ In `vagrant-hosts.yml`, add for the primary DNS server:
 
 ```Yaml
 - name: pr001
-  ip: 172.16.192.1
+  ip: 172.16.128.1
   netmask: 255.255.0.0
 ```
 

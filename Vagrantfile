@@ -138,7 +138,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define 'router' do |router |
     router.vm.box = ROUTER_BASE_BOX
     router.vm.network :private_network,
-      ip: '192.0.2.254',
+      ip: '203.0.113.254',
       netmask: '255.255.255.0'
     router.vm.network :private_network,
       ip: '172.16.255.254',

@@ -7,7 +7,7 @@
 #
 # Variables
 #
-sut_ip=172.16.192.11   # IP of the system under test
+sut_ip=172.16.128.11   # IP of the system under test
 sut_wins_name=FILES    # NetBIOS name
 workgroup=AVALON       # Workgroup
 admin_user=bert        # User with admin privileges

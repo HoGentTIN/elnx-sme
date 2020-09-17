@@ -13,25 +13,25 @@ The scaffolding code is based on [ansible-skeleton](https://github.com/bertvv/an
 
 You're hired by Avalon Services, a small but growing startup, to set up their IT infrastructure on-site. Your task is to build the network domain (domain name `avalon.lan`), which is subdivided into two IP ranges:
 
-- 192.0.2.0/24 for public services that should be accessible from the Internet (the so-called "DMZ" or "Demilitarized Zone")
+- 203.0.113.0/24 for public services that should be accessible from the Internet (the so-called "DMZ" or "Demilitarized Zone")
 - 172.16.0.0/16 for the internal network.
 
 An overview of notable hosts in the network (remark that you will not set all of these up in the assignment!) can be found below:
 
 | Host name     | Alias     | IP             | Function                 |
 | :---          | :---      | :---           | :---                     |
-| (host system) |           | 192.0.2.1      | Your physical pc         |
+| (host system) |           | 203.0.113.1    | Your physical pc         |
 |               |           | 172.16.0.1     |                          |
-| router        |           | 192.0.2.254    | Router/DNS forwarder     |
+| router        |           | 203.0.113.254  | Router/DNS forwarder     |
 |               | gw        | 172.16.255.254 |                          |
-| pu001         | www       | 192.0.2.10     | Webserver                |
-| pu002         | mail      | 192.0.2.20     | Mail server              |
-| pr001         | ns1       | 172.16.192.1   | Primary DNS              |
-| pr002         | ns2       | 172.16.192.2   | Secondary DNS            |
-| pr003         | dhcp      | 172.16.192.3   | DHCP server              |
-| pr004         | directory | 172.16.192.4   | LDAP server              |
-| pr010         | inside    | 172.16.192.10  | Intranet (LAMP)          |
-| pr011         | files     | 172.16.192.11  | Fileserver (Samba, FTP)  |
+| pu001         | www       | 203.0.113.10   | Webserver                |
+| pu002         | mail      | 203.0.113.20   | Mail server              |
+| pr001         | ns1       | 172.16.128.1   | Primary DNS              |
+| pr002         | ns2       | 172.16.128.2   | Secondary DNS            |
+| pr003         | dhcp      | 172.16.128.3   | DHCP server              |
+| pr004         | directory | 172.16.128.4   | LDAP server              |
+| pr010         | inside    | 172.16.128.10  | Intranet (LAMP)          |
+| pr011         | files     | 172.16.128.11  | Fileserver (Samba, FTP)  |
 | ws0001        |           | (DHCP)         | Workstation              |
 
 ![Diagram of the network to be set up](assignment/avalon-network.png)

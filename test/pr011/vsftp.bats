@@ -7,7 +7,7 @@
 #
 # Variables
 #
-sut_ip=172.16.192.11   # IP of the System Under Test
+sut_ip=172.16.128.11   # IP of the System Under Test
 admin_user=bert      # User with admin privileges
 admin_password=bert
 testfile="tst${RANDOM}"

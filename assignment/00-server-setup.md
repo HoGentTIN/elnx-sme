@@ -70,9 +70,9 @@ Every lab report should contain a test plan. To give an idea of what is meant by
 5. Log off from the server and ssh to the VM as described below. You should **not** get a password prompt.
 
     ```console
-    $ ssh bert@192.0.2.10
+    $ ssh bert@203.0.113.10
     Welcome to pu001.localdomain.
     enp0s3     : 10.0.2.15         fe80::a00:27ff:fe5c:6428/64
-    enp0s8     : 192.0.2.10        fe80::a00:27ff:fecd:aeed/64
+    enp0s8     : 203.0.113.10      fe80::a00:27ff:fecd:aeed/64
     [bert@pu001 ~]$
     ```

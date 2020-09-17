@@ -28,7 +28,7 @@ An overview of the network interfaces:
 | Interface | VBox adapter | IP address          | Remarks  |
 | :---      | :---         | :---                | :---     |
 | `eth0`    | NAT          | 10.0.2.15/24 (DHCP) | WAN link |
-| `eth1`    | Host-only    | 192.0.2.254/24      | DMZ      |
+| `eth1`    | Host-only    | 203.0.113.254/24      | DMZ      |
 | `eth2`    | Host-only    | 172.16.255.254/16   | internal |
 
 - The configuration of the VyOS router is not done through Ansible, but with a shell script, `scripts/router-config.sh`. Some scaffolding code is already present in the script, with comments that explain which settings to be added.
@@ -50,7 +50,7 @@ The address space of the internal network is used as follows:
 | 172.16.0.1     | --              | VirtualBox host system       |
 | 172.16.0.2     | 172.16.127.254  | Guests (dynamic IP)          |
 | 172.16.128.1   | 172.16.191.254  | Worksations (reserved IP)    |
-| 172.16.192.1   | 172.16.255.254  | Servers, gateway (static IP) |
+| 172.16.128.1   | 172.16.255.254  | Servers, gateway (static IP) |
 
 Some remarks:
 
@@ -87,7 +87,7 @@ Things to check (follow the guidelines for bottom-up troubleshooting!):
     - Is the DNS server responsive?
         - does it resolve www.avalon.lan?
             - does it resolve an external name? (e.g. www.google.com, icanhazip.com)
-        - does it resolve reverse lookups for avalon.lan? (e.g. 192.0.2.10, 172.16.192.1)
+        - does it resolve reverse lookups for avalon.lan? (e.g. 203.0.113.10, 172.16.128.1)
 - **Transport layer**
     - Not applicable, as no services run on the workstation
 - **Application layer**: Are network services available?
