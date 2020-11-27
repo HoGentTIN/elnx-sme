@@ -49,8 +49,8 @@ The address space of the internal network is used as follows:
 | :---           | :---            | :---                         |
 | 172.16.0.1     | --              | VirtualBox host system       |
 | 172.16.0.2     | 172.16.127.254  | Guests (dynamic IP)          |
-| 172.16.128.1   | 172.16.191.254  | Workstations (reserved IP)   |
-| 172.16.192.1   | 172.16.255.254  | Servers, gateway (static IP) |
+| 172.16.128.1   | 172.16.191.254  | Servers, gateway (static IP) |
+| 172.16.192.1   | 172.16.255.254  | Workstations (reserved IP)   |
 
 Some remarks:
 
